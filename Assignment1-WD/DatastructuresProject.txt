@@ -1,0 +1,439 @@
+
+//Data structures Project.
+//Nouf Zaki Alsubhi 2005929.
+#include <iostream>
+
+using namespace std;
+
+class Employee
+{
+public:
+// Name of Employee.
+  string name;
+//ID of Employee.
+  int ID;
+//First day of work.
+  string FDW;
+//Phone number of the employee.
+  int Phone;
+//Address of the employee.
+  string Address;
+//Work hours.
+  int WorkHours;
+//Salary
+  double Salary;
+  
+  Employee *next;
+
+//constructors
+    Employee ()
+  {
+    name = "";
+    ID = 0;
+    FDW = " ";
+    Phone = 0;
+    Address = " ";
+    WorkHours = 0;
+    Salary = 0.0;
+  }
+  Employee (string name, int ID, string FDW, int Phone, string Address,
+	    int WorkHours ,double Salary)
+  {
+    this->name = name;
+    this->ID = ID;
+    this->FDW = FDW;
+    this->Phone = Phone;
+    this->Address = Address;
+    this->WorkHours = WorkHours;
+    this->Salary = Salary;
+    next = NULL;
+  }
+};
+class EmployeeRecord
+{
+    Employee* head;
+    public:
+    //constructor
+    EmployeeRecord(){
+     head=NULL;
+     } 
+     //Insert employee record
+     void InsertEmployee(string name, int ID, string FDW, int Phone, string Address,
+	                        int WorkHours ,double Salary) 
+	    {
+           Employee*New_node =new Employee();
+	       New_node->ID=ID;
+	       //Checkrecord(ID);
+	       New_node->name=name;
+	       New_node->FDW=FDW;
+	       New_node->Phone=Phone;  
+	       New_node->Address=Address;
+	       New_node->WorkHours=WorkHours;
+	       New_node->Salary=Salary;
+	         //empty linkelist add to front                               
+	        if(head==NULL)
+	       {
+	           head=New_node;
+	       }
+	       else
+	       {
+	           Employee*temp = new Employee();
+	           temp=head;
+	           //linkelist not empty 
+	           while(temp->next != NULL)
+	           {
+	               temp=temp->next;
+	           }
+	           temp->next = New_node;
+	       }
+	       SortedInsert(&head);
+	       cout<<"The Employee has been added successfully ."<<"\n";
+	    }
+	   
+         //Delete employee record.
+      void DeleteEmployee(int ID)
+        {
+            Employee* pre = NULL;
+            Employee* temp = head;
+            bool flag = false;
+             if(head==NULL)
+                {
+                 cout<<"List is Empty !"<<endl;
+                                 
+                }
+             else
+             {
+                 while(temp != NULL){
+                if(temp->ID == ID)
+                {
+                 flag = true;
+                 break;  
+                }
+                pre = temp;
+                temp = temp->next;
+                }
+                if(flag == true)
+                {
+                if(pre == NULL)
+                {
+                head = head->next;
+                delete temp;
+                }
+                else
+                {
+                pre->next=temp->next;
+                delete temp;
+                }
+                 cout<<"The Employee record was deleted ."<<endl;
+                                   
+                 }
+                //if not found
+                else
+                {
+                 cout<<"The Employee ID not found."<<endl;
+                }
+           }
+        }   
+//Update employee record.
+//The ID cant Update.
+    void UpdateInfo(int ID)
+    {
+         Employee* temp=head;
+        string UPname,UPAddress,UPFDW;
+        int UPphone,UPWorkHours;
+        double UPSalary;
+         int choice;
+         cout<<"--Update employee information--"<<endl;
+         cout<<"Press 1->to update Name"<<endl;
+         cout<<"Press 2->to update Frist day of work"<<endl;
+         cout<<"Press 3->to update Phone"<<endl;;
+         cout<<"Press 4->to update Address"<<endl;
+         cout<<"Press 5->to update WorkHours"<<endl;
+         cout<<"Press 6->to update Salary"<<endl;
+         cout<<"Press 7-> EXIT!"<<endl;
+         cout<<"Enter your choice:";
+         cin>>choice;
+         switch(choice)
+         {
+            case 1:
+            cout<<"Enter Name:";
+            cin>>UPname;
+            temp->name=UPname;
+            cout<<endl;
+            break;
+            case 2:
+            cout<<"Enter Frist day of work:";
+            cin>>UPFDW;
+            temp->FDW=UPFDW;
+            cout<<endl;
+            break;
+            case 3:
+            cout<<"Enter Phone:";
+            cin>>UPphone;
+            temp->Phone=UPphone;
+            cout<<endl;
+            break;
+            case 4:
+            cout<<"Enter Address:";
+            cin>>UPAddress;
+            temp->Address=UPAddress;
+            cout<<endl;
+            break;
+            case 5:
+            cout<<"Enter Work Hours:";
+            cin>>UPWorkHours;
+            temp->WorkHours=UPWorkHours;
+            cout<<endl;
+            break;
+            case 6:
+            cout<<"Enter Salary:$";
+            cin>>UPSalary;
+            temp->Salary=UPSalary;
+            cout<<endl;
+            break;
+            case 7:
+            exit(0);
+            default:
+            cout<<"Invalid choice."<<endl;
+            break;
+         }
+    }
+    //Show employee,Display method
+    void ShowEmployee()
+    {
+    Employee* temp=head;
+    if(temp==NULL)
+    cout<<"The Employee record empty.";
+    while(temp!=NULL)
+    {
+     cout<<"---------------------------------------"<<endl;
+     cout<<"Employee Name = "<<temp->name<<endl;
+     cout<<"Employee ID = "<<temp->ID<<endl;
+     cout<<"Frist day of work = "<<temp->FDW<<endl;
+     cout<<"Employee phone = "<<temp->Phone<<endl;
+     cout<<"Employee Address = "<<temp->Address<<endl;
+     cout<<"Employee Work Hours = "<<temp->WorkHours<<endl;
+     cout<<"Employee Salary = $"<<temp->Salary<<endl;
+     cout<<"---------------------------------------"<<endl;
+     temp=temp->next;
+     }
+     cout<<endl;
+     }
+    //Search employee
+    void SearchEmployee(int ID)
+    {
+        Employee* temp = head;
+        bool match=false;
+        while(temp!=NULL){
+        if(temp->ID==ID)
+     {
+         match= true;
+         cout<<"---------------------------------------"<<endl;
+         cout<<"Employee Name = "<<temp->name<<endl;
+         cout<<"Employee ID = "<<temp->ID<<endl;
+         cout<<"Frist day of work = "<<temp->FDW<<endl;
+         cout<<"Employee phone = "<<temp->Phone<<endl;
+         cout<<"Employee Address = "<<temp->Address<<endl;
+         cout<<"Employee Work Hours = "<<temp->WorkHours<<endl;
+         cout<<"Employee Salary = $"<<temp->Salary<<endl;
+         cout<<"---------------------------------------"<<endl;
+     }
+     temp=temp->next; 
+     }
+     if(match==false){
+     // if employee is not in record
+     cout<<"There is no record of this employee."<<endl;
+    
+     }
+     }
+    //Update salary
+    void UpdateSalary(int ID)
+    {
+        Employee*temp = new Employee();
+    	temp=head;
+    	int WorkHours;
+    	double UPSalary;
+      cout<<"The number of your working hours :"<< temp->WorkHours<<endl;;
+      if(temp->WorkHours<32)
+      {
+          cout<<"There is no salary update because the number of hours is not enough !"<<endl;
+      }
+      else
+      {
+         
+          UPSalary=temp->Salary*0.02;
+          temp->Salary+=UPSalary;
+          cout<<endl;
+          cout<<"Update salary:$"<<temp->Salary;
+          cout<<endl;
+           
+      }
+    }
+    //The record should be inserted in sorted order use the inserting node in the sorted.
+    void SortedInsert(Employee** head)
+{
+    // Initialize previous and current
+    Employee* prev = (*head);
+    Employee* curr = (*head)->next;
+    while (curr != NULL)
+    {
+        // If curr is smaller than prev,
+        // then it must be moved to head
+        if (curr->ID < prev->ID)
+        {
+            // Detach curr from linked list
+            prev->next = curr->next;
+ 
+            // Move current node to beginning
+            curr->next = (*head);
+            (*head) = curr;
+ 
+            // Update current
+            curr = prev;
+        }
+ 
+        // Nothing to do if current
+        // element is at right place
+        else
+            prev = curr;
+ 
+        // Move current
+        curr = curr->next;
+    }
+   
+}
+// void Checkrecord(int ID)
+// {
+//         Employee*temp = new Employee();
+//     	temp=head;
+//     	if(temp->ID=ID)
+//     	{
+//     	    cout<<"Error !, the ID in record"<<temp->ID;
+//     	    cout<<"Enter another ID";
+//     	}
+//     	temp=temp->next;
+// }
+  void checkID(int ID)
+    {   Employee* New_node = head;
+        Employee* temp = head;
+        bool match=false;
+      int UPID;
+      while(temp!=NULL)
+        {
+        if(temp->ID==ID)
+        {
+          match= true;
+          cout<<"Error !, the ID in record -> "<<temp->ID<<endl;
+    	  cout<<"Enter another ID :";
+            cin>>UPID;
+            
+          temp->ID=UPID;
+        }
+        else
+        {
+          match= false;  
+        cout<<"ID saved"<<endl;
+        }
+     temp=temp->next; 
+     }
+     
+     
+     }
+
+};
+int main ()
+{
+    Employee*head;
+    Employee*New_node=new Employee();
+  //FDW-Frist day in Work
+  string name , Address , FDW;
+  int ID,Phone,WorkHours,choice;
+  double Salary;
+  //object
+  EmployeeRecord* obj = new EmployeeRecord();
+  while(1){
+//the menu.
+cout<<"~Welcome to the employee records management system~"<<endl;
+cout<<"Press '1'INSERT employee."<<endl;
+cout<<"Press '2'DELETE employee."<<endl;
+cout<<"Press '3'Update employee info."<<endl;
+cout<<"Press '4'Show employee record."<<endl;
+cout<<"Press '5'Search for an employee."<<endl;
+cout<<"Press '6'Update Salary."<<endl;
+cout<<"Press '7' to exit."<<endl;
+cout<<"*Enter your choice: ";
+cin>>choice;
+//switch for the choice.
+switch(choice){
+//case 1 for INSERT.
+case 1:
+cout<<endl;
+cout<<"Enter name : ";
+cin>>name;
+cout<<"Enter ID : ";
+cin>>ID;
+obj->checkID(ID);
+cout<<"Enter frist day of Work : ";
+cin>>FDW;
+cout<<"Enter phone : ";
+cin>>Phone;
+cout<<"Enter Address : ";
+cin>>Address;
+cout<<"Enter Work hours : ";
+cin>>WorkHours;
+cout<<"Enter Salary : $";
+cin>>Salary;
+cout<<endl;
+obj->InsertEmployee(name,  ID,  FDW,  Phone,  Address, WorkHours , Salary) ;
+break;
+//case 2  to DELETE employee. 
+case 2:
+cout<<endl;
+cout<<"Enter ID: ";
+cin>>ID;
+cout<<endl;
+obj->DeleteEmployee( ID);
+break;
+//case 3 to Update employee info .
+case 3:
+cout<<endl;
+cout<<"Employee ID: ";
+cin>>ID;
+cout<<endl;
+obj->UpdateInfo(ID);
+break;
+//case 4 to Show employee record.
+case 4:
+cout<<endl;
+obj->ShowEmployee();
+
+break;
+//case 5  Search for an employee:.
+case 5:
+cout<<endl;
+cout<<"Employee ID: ";
+cin>>ID;
+cout<<endl;
+obj->SearchEmployee( ID);
+break;
+//case 6 To check if the employee is eligible for a salary update
+case 6:
+cout<<endl;
+cout<<"Employee ID:";
+cin>>ID;
+cout<<endl;
+obj->UpdateSalary( ID);
+break;
+//case to exit.
+case 7:
+exit(0);
+default:
+cout<<"Invalid choice."<<endl;
+break;
+}
+}
+  return 0;
+}
+
+
+
